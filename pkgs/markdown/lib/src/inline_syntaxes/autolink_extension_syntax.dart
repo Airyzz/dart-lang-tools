@@ -107,8 +107,10 @@ class AutolinkExtensionSyntax extends InlineSyntax {
       destination = 'http://$destination';
     }
 
+    // the link may already contain Uri encoded characters,
+    // so decode it before re-encoding
     final anchor = Element.text('a', text)
-      ..attributes['href'] = Uri.encodeFull(destination);
+      ..attributes['href'] = Uri.encodeFull(Uri.decodeFull(destination));
 
     parser
       ..addNode(anchor)
